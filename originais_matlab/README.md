@@ -36,7 +36,7 @@ MATLAB           |
 
 MATLAB           |
 :-------------------------:
-<img src="https://github.com/Alexandre-Caldeira/detection-theory-101/blob/main/originais_matlab/grafico_VC_LFT-matlab.png" height="600"> |
+<img src="https://github.com/Alexandre-Caldeira/detection-theory-101/blob/main/originais_matlab/LFT_PD_SNR-matlab.png" height="600"> |
  Python |
 <img src="https://github.com/Alexandre-Caldeira/detection-theory-101/blob/main/notebooks/LFT_PD_SNR-python.png" height="600"> |
 
@@ -44,7 +44,7 @@ MATLAB           |
 
 MATLAB           |
 :-------------------------:
-<img src="https://github.com/Alexandre-Caldeira/detection-theory-101/blob/main/originais_matlab/grafico_VC_LFT-matlab.png" height="600"> |
+<img src="https://github.com/Alexandre-Caldeira/detection-theory-101/blob/main/originais_matlab/CSM_PD_SNR-matlab.png" height="600"> |
  Python |
 <img src="https://github.com/Alexandre-Caldeira/detection-theory-101/blob/main/notebooks/CSM_PD_SNR-python.png" height="600"> |
 
@@ -52,6 +52,6 @@ MATLAB           |
 
 MATLAB           |
 :-------------------------:
-<img src="https://github.com/Alexandre-Caldeira/detection-theory-101/blob/main/originais_matlab/grafico_VC_LFT-matlab.png" height="600"> |
+<img src="https://github.com/Alexandre-Caldeira/detection-theory-101/blob/main/originais_matlab/MSC_PD_SNR-matlab.png" height="600"> |
  Python |
 <img src="https://github.com/Alexandre-Caldeira/detection-theory-101/blob/main/notebooks/MSC_PD_SNR-python.png" height="600"> |
