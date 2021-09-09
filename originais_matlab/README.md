@@ -26,9 +26,11 @@ MATLAB           | Python
 
 - LFT:
 
-MATLAB           | Python
-:-------------------------:|:-------------------------:
-<img src="https://github.com/Alexandre-Caldeira/detection-theory-101/blob/main/originais_matlab/grafico_VC_LFT-matlab.png" height="600"> | <img src="https://github.com/Alexandre-Caldeira/detection-theory-101/blob/main/notebooks/LFT_PD_SNR-python.png" height="600">
+MATLAB           |
+:-------------------------:
+<img src="https://github.com/Alexandre-Caldeira/detection-theory-101/blob/main/originais_matlab/grafico_VC_LFT-matlab.png" height="600"> |
+ Python |
+<img src="https://github.com/Alexandre-Caldeira/detection-theory-101/blob/main/notebooks/LFT_PD_SNR-python.png" height="600"> |
 
 - CSM:
 
