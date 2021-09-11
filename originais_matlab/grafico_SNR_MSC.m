@@ -42,9 +42,21 @@ for jj = 1:size(vetor_SNR,2) %fazer para cada SNR
     
 end
 
+%%
 figure 
-lw=2; 
+lw  =2; 
 plot(vetor_SNR,PD,'LineWidth',lw) 
-xlabel('SNR','fontsize',12)
-ylabel('PD','fontsize',12)
+xlabel('SNR','fontsize',14)
+ylabel('PD','fontsize',14)
+title('Curva PD da MSC')
+% legend({num2str(vN')},'edgecolor','none')
+hold on
 grid on 
+pd_msc_python = readtable('../notebooks/PD_MSC.csv');
+snr_p = pd_msc_python.SNR;
+pd_p = pd_msc_python.ProbabilidadeDeDetec____o___;
+plot(snr_p,pd_p,'-o') 
+hold off
+grid on
+legend('MATLAB','PYTHON')
+

@@ -12,7 +12,7 @@ fs = 1000;
 L = 20;
 N=1e4;
 bin = round(f*N/fs +1);
-vetor_SNR =-60:20:-20; %vetor da SNR 
+vetor_SNR =-60:2:-12; %vetor da SNR 
 
 
 %% 
@@ -44,10 +44,21 @@ for jj = 1:size(vetor_SNR,2) %fazer para cada SNR
     
 end
 
+%%
 figure 
 lw  =2; 
 plot(vetor_SNR,PD,'LineWidth',lw) 
-xlabel('SNR','fontsize',12)
-ylabel('PD','fontsize',12)
-legend({num2str(vN')},'edgecolor','none')
+xlabel('SNR','fontsize',14)
+ylabel('PD','fontsize',14)
+title('Curva PD da SFT')
+% legend({num2str(vN')},'edgecolor','none')
+hold on
 grid on 
+pd_sft_python = readtable('../notebooks/PD_SFT.csv');
+snr_p = pd_sft_python.SNR;
+pd_p = pd_sft_python.ProbabilidadeDeDetec____o___;
+plot(snr_p,pd_p,'-o') 
+hold off
+grid on
+legend('MATLAB','PYTHON')
+

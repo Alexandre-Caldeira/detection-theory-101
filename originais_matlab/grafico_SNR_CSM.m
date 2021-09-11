@@ -45,6 +45,25 @@ end
 figure 
 lw=2; 
 plot(vetor_SNR,PD,'LineWidth',lw) 
-xlabel('SNR','fontsize',12)
+xlabel('SNR','fontsize',12)p
 ylabel('PD','fontsize',12)
 grid on 
+hold on
+
+%%
+figure 
+lw  =2; 
+plot(vetor_SNR,PD,'LineWidth',lw) 
+xlabel('SNR','fontsize',14)
+ylabel('PD','fontsize',14)
+title('Curva PD da CSM')
+% legend({num2str(vN')},'edgecolor','none')
+hold on
+grid on 
+pd_csm_python = readtable('../notebooks/PD_CSM.csv');
+snr_p = pd_csm_python.SNR;
+pd_p = pd_csm_python.ProbabilidadeDeDetec____o___;
+plot(snr_p,pd_p,'-o') 
+hold off
+grid on
+legend('MATLAB','PYTHON')
