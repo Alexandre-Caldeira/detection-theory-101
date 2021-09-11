@@ -12,7 +12,7 @@ fs = 1000;
 L = 20;
 N=1e4;
 bin = round(f*N/fs +1);
-vetor_SNR =-60:2:-20; %vetor da SNR 
+vetor_SNR =-60:20:-20; %vetor da SNR 
 
 
 %% 
@@ -24,7 +24,8 @@ ords = [];
 for jj = 1:size(vetor_SNR,2) %fazer para cada SNR 
     nd = 0;
     SNRi = vetor_SNR(jj);
-    A = 1/(10^(SNRi/-20));
+%     A = 1/(10^(SNRi/-20));
+    A = 10.^(vetor_SNR(jj)/20)*(energia_ruido^2);
     
     for ii = 1:NRuns %fazer por experimento 
         s(:,1) = sin(2*pi*f/fs*[0:(N-1)]);
