@@ -1,0 +1,163 @@
+% 09/Set/21 - Alexandre Caldeira
+%% Boas práticas
+clearvars;close all; clc;
+
+%% Constantes:
+% Amplitude do Ruído:
+Ar = 5;
+
+% Média do ruído:
+Mr = 10;
+
+% Frequência do Sinal: [Hz]
+f0 = 100;
+
+% Fase inicial do sinal: [rad]
+th0 = 0;
+
+% Frequência de Amostragem: [Hz]
+fs = 1000;
+
+% Tamanho da janela:
+tj = fs; % 1seg/janela
+
+% Número de janelas: 
+M = 10;
+
+% Número de pontos amostrados:
+N = M*tj; % 
+
+% Tempo:
+t = linspace(0,N-1,N);
+
+%% Geração de sinais
+% Distribuição normal (gaussiana):
+dist = randn(N,1);  
+
+% "Ruído" aleatório (média 1, amplitude 5):
+r = (Ar*randn(N,1) + Mr);
+
+% Senóide:
+s = 5*sin(2*pi*f0/fs*t+th0)';
+
+% Senóide + Ruído 1:
+j = s+dist;
+
+% Senóide + Ruído 2:
+k = s+r;
+
+%% Geração das ORDs:
+alfa = 0.05; L = 12;
+[~,vc_lft] = VC_LFT(L,alfa, 1);
+[~,vc_csm] = VC_CSM(M,alfa, 1);
+[~,vc_msc] = VC_MSC(M,alfa, 1);
+
+% Distribuição normal (gaussiana):
+binD = L; 
+lftD = LFT(dist, L,binD);  
+csmD = CSM(dist,tj,M);  
+mscD = msc(dist,tj,M);  
+
+
+% "Ruído" aleatório (média 1, amplitude 5):
+binR = L; 
+lftR = LFT(r, L,binR);  
+csmR = CSM(r,tj,M);  
+mscR = msc(r,tj,M);  
+
+% Senóide:
+binS = round(N*f0/fs+1);
+lftS = LFT(s, L,binS);  
+csmS = CSM(s,tj,M);  
+mscS = msc(s,tj,M); 
+
+% Senóide + Ruído 1:
+lftSR1 = LFT(j, L,binS);  
+csmSR1 = CSM(j,tj,M);  
+mscSR1 = msc(j,tj,M); 
+
+% Senóide + Ruído 2:
+binSR2 = 7; 
+lftSR2 = LFT(k, L,binS);  
+csmSR2 = CSM(k,tj,M);  
+mscSR2 = msc(k,tj,M); 
+
+%% Gráfico das LFTs: 
+
+%???
+
+%% Gráfico das CSMs:
+figure(2)
+% subplot(211)
+subplot(221)
+hold on;
+sMD = stem(csmD);
+sMD.Color = [0.8500, 0.3250, 0.0980];
+sMR = stem(csmR);
+sMR.Color = [0, 0.4470, 0.7410];
+yline(vc_csm,'--r','LineWidth', 2.5);
+hold off;
+grid on;
+title('CSM Ruidos')
+legend('Ruído 1','Ruído 2','Limiar')
+
+% subplot(212)
+subplot(222)
+sMS = stem(csmS);
+yline(vc_csm,'--r','LineWidth', 2.5);
+grid on;
+title('CSM Senóide')
+
+% figure(2)
+% subplot(211)
+subplot(223)
+sMSR1 = stem(csmSR1);
+yline(vc_csm,'--r','LineWidth', 2.5);
+grid on;
+title('CSM Senóide + Ruído 1')
+
+
+% subplot(212)
+subplot(224)
+sMSR2 = stem(csmSR2);
+yline(vc_csm,'--r','LineWidth', 2.5);
+grid on;
+title('CSM Senóide + Ruído 2')
+
+%% Gráfico das MSCs:
+figure(3)
+% subplot(211)
+subplot(221)
+hold on;
+sMD = stem(mscD);
+sMD.Color = [0.8500, 0.3250, 0.0980];
+sMR = stem(mscR);
+sMR.Color = [0, 0.4470, 0.7410];
+yline(vc_msc,'--r','LineWidth', 2.5);
+hold off;
+grid on;
+title('MSC Ruidos')
+legend('Ruído 1','Ruído 2','Limiar')
+
+% subplot(212)
+subplot(222)
+sMS = stem(mscS);
+yline(vc_msc,'--r','LineWidth', 2.5);
+grid on;
+title('MSC Senóide')
+
+% figure(2)
+% subplot(211)
+subplot(223)
+sMSR1 = stem(mscSR1);
+yline(vc_msc,'--r','LineWidth', 2.5);
+grid on;
+title('MSC Senóide + Ruído 1')
+
+
+% subplot(212)
+subplot(224)
+sMSR2 = stem(mscSR2);
+yline(vc_msc,'--r','LineWidth', 2.5);
+grid on;
+title('MSC Senóide + Ruído 2')
