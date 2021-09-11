@@ -47,7 +47,7 @@ j = s+dist;
 k = s+r;
 
 %% Geração das ORDs:
-alfa = 0.05; L = 20;
+alfa = 0.05; L = 12;
 [~,vc_lft] = VC_LFT(L,alfa, 1);
 [~,vc_csm] = VC_CSM(M,alfa, 1);
 [~,vc_msc] = VC_MSC(M,alfa, 1);
@@ -72,6 +72,16 @@ mscSR1 = msc(j,tj,M);
 % Senóide + Ruído 2:
 csmSR2 = CSM(k,tj,M);  
 mscSR2 = msc(k,tj,M); 
+
+%% Gráfico das LFTs: 
+bin_f0 = round(N*f0/fs+1);
+for ff = 0:1:round(N/2 - L)
+    lftD = LFT(dist, L,binD);  
+    lftR = LFT(r, L,binR);  
+    lftS = LFT(s, L,ff); 
+    lftSR1 = LFT(j, L,ff);  
+    lftSR2 = LFT(k, L,ff); 
+end
 
 %% Gráfico das CSMs:
 figure(2)

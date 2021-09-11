@@ -74,8 +74,8 @@ px.LineWidth = 1.8;
 
 hold off
 grid on
-Ldists = legend('Ruído 1:','$\mathcal{N}(\mu = 0,\sigma^2 = 1)$',...
-           'Ruído 2:','$\mathcal{N}(\mu = 10,\sigma^2 = 5)$',...
+Ldists = legend('Ruído 1:','$\mathcal{N}(\mu = 0,\sigma^2 = 1^2)$',...
+           'Ruído 2:','$\mathcal{N}(\mu = 10,\sigma^2 = 5^2)$',...
            'Limiar (teste F da média)');
        
 warning('off')
@@ -120,7 +120,7 @@ ps12.Color = [0, 0.4470, 0.7410];
 ylabel('Amplitude [V]','FontSize',14)
 xlabel('Tempo [s]','FontSize',14)
 title('Senóide amostrada com ruído 1','FontSize',14)
-Ls = legend('$sen(\cdot) +\mathcal{N}(\mu = 0,\sigma^2 = 1)$','$f_0 = 100$ [Hz], $f_s = 1000$ [Hz]','FontSize',14);
+Ls = legend('$sen(\cdot) +\mathcal{N}(\mu = 0,\sigma^2 = 1^2)$','$f_0 = 100$ [Hz], $f_s = 1000$ [Hz]','FontSize',14);
 grid on
 Ls.Interpreter = 'latex';
 
@@ -146,7 +146,7 @@ ps12.Color = [0, 0.4470, 0.7410];
 ylabel('Amplitude [V]','FontSize',14)
 xlabel('Tempo [s]','FontSize',14)
 title('Senóide amostrada com ruído 2','FontSize',14)
-Ls = legend('$\mathcal{N}(\mu = 10,\sigma^2 = 5)$','$f_0 = 100$ [Hz], $f_s = 1000$ [Hz]','FontSize',14);
+Ls = legend('$sen(\cdot) + \mathcal{N}(\mu = 10,\sigma^2 = 5^2)$','$f_0 = 100$ [Hz], $f_s = 1000$ [Hz]','FontSize',14);
 grid on
 Ls.Interpreter = 'latex';
 
