@@ -45,7 +45,7 @@ end
 figure 
 lw=2; 
 plot(vetor_SNR,PD,'LineWidth',lw) 
-xlabel('SNR','fontsize',12)p
+xlabel('SNR','fontsize',12)
 ylabel('PD','fontsize',12)
 grid on 
 hold on
