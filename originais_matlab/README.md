@@ -1,5 +1,7 @@
 # Comparação de Resultados
 
+> ** OS CÓDIGOS CONTIDOS NESSA PASTA SÃO DE AUTORIA COMPLETA (OU ADAPTADOS) DAQUELES APRESENTADOS EM [AULA](https://www.youtube.com/channel/UCV0pkAJkePeV1n6bos0phmA/playlists) **
+
 ## Resultados dos algoritmos:
 
 ### Validação do VALOR CRÍTICO:
