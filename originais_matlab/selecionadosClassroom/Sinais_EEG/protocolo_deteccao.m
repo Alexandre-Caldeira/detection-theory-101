@@ -22,12 +22,18 @@ for ii = 1:size(parametros,1)
     Mstep = parametros(ii,2);
     Mmax = parametros(ii,3);
     alfa = parametros(ii,4);
+%     0.14423591071771485;
+%     0.29772626111001194;
+%     0.0222815541651078;
+%     
     
     % protocolo
     MM = Mmin:Mstep:Mmax;
     det = ord(:,MM);
     
-    valor_critico = VC_MSC(MM,alfa);
+%     valor_critico = VC_MSC(MM,alfa);
+    valor_critico = alfa;
+    
     det = det>repmat(valor_critico,size(det,1),1);
 
 
