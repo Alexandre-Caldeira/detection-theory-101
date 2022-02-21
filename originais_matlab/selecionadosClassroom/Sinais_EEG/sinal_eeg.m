@@ -102,6 +102,11 @@ ylabel('Taxa de Detecção','fontsize',12)
 xlabel('Índice do Conj. de Parâmetros','fontsize',12)
 title('50dB - M = 2:2:240 - CEBULLA')
 
+%Dados 30dB 440 Janelas descomentar 
+% plot([0 size(TXD,1)],[TXD(end) TXD(end)], ':r','LineWidth',2)  %single shot 30dB
+% Dados 50dB 240 Janelas
+% plot([0 size(TXD,1)],[TXD(1) TXD(1)], ':r','LineWidth',2)  %single shot 50dB
+
 %2 - Taxa de detecção 
 figure 
 plot(FP,'.k','MarkerSize',10)
