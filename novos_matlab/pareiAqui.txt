@@ -1,0 +1,30 @@
+Distribution of the multiple coherence estimate for the detection of periodic signals in noise
+file:///C:/Users/alexa/Desktop/sync/NIAS_online/IC21/Resultados/22_03_03/MSC%20Ferreira%20Leite%20Miranda%20de%20S%C3%A1%20-%202021%20-%20Distribution%20of%20the%20multiple%20coherence%20estimate%20for%20the%20detection%20of%20periodic%20signals%20in%20noise.pdf
+
+The Convolutional Group Sequential Test: reducing test time for evoked potentials
+file:///C:/Users/alexa/Desktop/sync/NIAS_online/IC21/Journal%20Club/22_02_15/chesnaye2019.pdf
+
+Sci-Hub | Objective measures for detecting the auditory brainstem response: comparisons of specificity, sensitivity and detection time. International Journal of Audiology, 57(6), 468–478 | 10.1080/14992027.2018.1447697
+https://sci-hub.se/10.1080/14992027.2018.1447697
+
+Sci-Hub | A group sequential test for ABR detection. International Journal of Audiology, 1–10 | 10.1080/14992027.2019.1625486
+https://sci-hub.se/10.1080/14992027.2019.1625486
+
+Convolution and polynomial multiplication - MATLAB conv
+https://www.mathworks.com/help/matlab/ref/conv.html
+
+Bootstrap sampling - MATLAB bootstrp
+https://www.mathworks.com/help/stats/bootstrp.html
+
+Periodogram - Wikipedia
+https://en.wikipedia.org/wiki/Periodogram
+
+matlab hoteling t2 - Pesquisa Google
+https://www.google.com/search?q=matlab+hoteling+t2&oq=matlab+hoteling+t2&aqs=chrome..69i57.5112j0j1&sourceid=chrome&ie=UTF-8
+
+HotellingT2 - File Exchange - MATLAB Central
+https://www.mathworks.com/matlabcentral/fileexchange/2844-hotellingt2
+
+Normally distributed random numbers - MATLAB randn
+https://www.mathworks.com/help/matlab/ref/randn.html
+
