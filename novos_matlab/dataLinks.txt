@@ -1,0 +1,21 @@
+FROM 
+Sci-Hub | Objective measures for detecting the auditory brainstem response: comparisons of specificity, sensitivity and detection time. International Journal of Audiology, 57(6), 468–478 | 10.1080/14992027.2018.1447697
+https://sci-hub.se/10.1080/14992027.2018.1447697
+
+SUPP:
+https://www.tandfonline.com/doi/suppl/10.1080/14992027.2018.1447697
+
+__________________
+FROM 
+Sci-Hub | A group sequential test for ABR detection. International Journal of Audiology, 1–10 | 10.1080/14992027.2019.1625486
+https://sci-hub.se/10.1080/14992027.2019.1625486
+
+SUPP:
+https://www.tandfonline.com/doi/suppl/10.1080/14992027.2019.1625486
+__________________
+FROM
+Sci-Hub | The Convolutional Group Sequential Test: reducing test time for evoked potentials. IEEE Transactions on Biomedical Engineering, 1–1 | 10.1109/tbme.2019.2919696
+https://sci-hub.se/10.1109/tbme.2019.2919696
+
+SUPP:
+https://eprints.soton.ac.uk/417742/
