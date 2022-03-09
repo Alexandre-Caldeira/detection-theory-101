@@ -33,6 +33,7 @@ t = tic();
 nRuns=1/2 *10000;
 N = 100;
 tj = N; M = N;
+alpha = 0.01;
 
 Rm0 = zeros(nRuns,N);
 
@@ -43,6 +44,7 @@ aux16= zeros(16,N);
 Rm16 = zeros(nRuns,N);
 
 % approx 115.6759s => Rm0 e Rm16 @ nRuns = 5000
+% approx 718.6909 => Rm0 e Rm16 @ nRuns = 5000
 for ii = 1:nRuns
     y = randn(1,N^2);
     [Y,Rm0(ii,:)] = rayleigh(y,N,N);
@@ -52,6 +54,7 @@ for ii = 1:nRuns
     end
     Rm16(ii,:) = max(aux16,[],1);
     
+    %(Mmax-Min+1)/Mstep
     for M = 10:1:100
         [Y,aux91(M-9,:)] = rayleigh(y,N,M);
     end
@@ -63,19 +66,36 @@ disp(toc(t))
 figure
 
 [f,xi] = ksdensity(Rm0(:,end));
+limiar0 = quantile(f, 1-alpha);
 plot(xi,f,'LineWidth', 2);
 hold on
+plot([limiar0 limiar0],[0,3],'r--')
 
 [f2,xi2] = ksdensity(max(Rm0(:,:),[],2));
+limiar02 = quantile(f2, 1-alpha);
 plot(xi2,f2,'LineWidth', 2);
+plot([limiar02 limiar02],[0,3],'r--')
 
-[f3,xi3] = ksdensity(max(Rm16,[],2));
+% [f3,xi3] = ksdensity(max(Rm16,[],2));
+[f3,xi3] = ksdensity(Rm16(:,end));
+limiar16 = quantile(f3, 1-alpha);
 plot(xi3,f3,'LineWidth', 2);
+plot([limiar16 limiar16],[0,3],'r--')
 
-[f4,xi4] = ksdensity(max(Rm91,[],2));
+% [f4,xi4] = ksdensity(max(Rm91,[],2));
+[f4,xi4] = ksdensity(Rm91(:,end));
+limiar91 = quantile(f4, 1-alpha);
 plot(xi4,f4,'LineWidth', 2);
+plot([limiar91 limiar91],[0,3],'r--')
+
 
 hold off
 grid on
 xlim([0,2])
-legend('H_{01}','H_{02}','H_{0216}' ,'H_{0291}')
+
+legenda = {'H_{01}',['Limiar_{01} =' num2str(limiar0)],...
+           'H_{02}',['Limiar_{02} =' num2str(limiar02)],...
+           'H_{0216}',['Limiar_{0216} =' num2str(limiar16)],...
+           'H_{0291}',['Limiar_{0291} =' num2str(limiar91)]};
+
+legend(legenda,'Location','NorthWest')
