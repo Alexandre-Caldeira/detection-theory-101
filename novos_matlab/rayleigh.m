@@ -1,4 +1,4 @@
-function [Y,Rm] = rayleigh(y,tj,M)
+function Rm = rayleigh(y,tj,M)
 %rayleigh modified rayleigh test
 %   TODO explain
     y = reshape(y(1:tj*M), tj, M);
