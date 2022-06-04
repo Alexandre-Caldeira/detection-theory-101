@@ -6,8 +6,7 @@ close all;clearvars;clc;
 % ! Ensure data ins on Matlab's path
 load Subject_ABR_Data.mat
 
-sub1 = DB50{6};
-% DB00{1};  subject 1 in exam without stimulus
+sub1 = DB00{1}; % subject 1 in exam without stimulus
 [N,sampleSize] = size(sub1);
 
 % SUB1 = fft(sub1);
@@ -61,68 +60,64 @@ end
 %             Andrea Guia-Ramirez.
 %  Copyright (C) December 2002
 
-% K = 
-numDetec = [];
-numTests = 0;
-max = floor(N/25);
+K       = 3;                % test the 3-staged design
+FP      = zeros(1, K);      % number of false-positives
+NumT    = N;                % number of tests to carry out
 
-% !!! TODO: FIX FOR LOOP,
-% currently looping in joint sets of samples
-pHist = zeros(1,max);
-summary = zeros(1,max);
-phiSum = zeros(1,max);
-for K = 26:26:max-26
+% from Generate_Thresholds_ExampleCode.m:
+Thresholds = [8.1887,  11.0080,   13.4886]; 
+Ps = zeros(1,K);
 
+for ti=1:NumT
+    X = V(1:K,:); % FIXME
+    mu=zeros([1,Q]); % EXPECTED MEAN
+    m=mean(X); %Mean vector from data matrix X.
+    S=cov(X);  %Covariance matrix from data matrix X.
+    T2=N*(m-mu)*inv(S)*(m-mu)'; %Hotelling's T-Squared statistic.
+
+    % "The T2 statistic can then be transformed into an F 
+    % statistic using:
+
+    F = T2*(N-Q)/(Q*(N-1));
+
+    % which follows an F-distribution with Q and N – Q degrees of
+    % freedom (DOF) under H0. It is worth noting that the number 
+    % of epochs N should be larger than the number of features Q, 
+    % else S1 cannot be calculated.
+
+    v1=Q;  %Numerator degrees of freedom.
+    v2=N-Q;  %Denominator degrees of freedom.
+    Ps(ti)=1-fcdf(F,v1,v2);  %Probability that null Ho: is true.
     
-    X = V(K:K+26,:); % FIXME
-    [N,Q] = size(sub1);
-    alpha = 0.05; % Significance level
-    T2Hot1(X,alpha);
-
-%     mu=zeros([1,Q]); % EXPECTED MEAN
-%     m=mean(X); %Mean vector from data matrix X.
-%     S=cov(X);  %Covariance matrix from data matrix X.
-% %     T2=N*(m-mu)*inv(S)*(m-mu)'; %Hotelling's T-Squared statistic.
-%     T2=N*(m-mu)/S*(m-mu)'; %Hotelling's T-Squared statistic.
-% 
-%     % "The T2 statistic can then be transformed into an F 
-%     % statistic using:
-% 
-%     F = T2*(N-Q)/(Q*(N-1));
-%     
-%     % which follows an F-distribution with Q and N – Q degrees of
-%     % freedom (DOF) under H0. It is worth noting that the number 
-%     %of epochs N should be larger than the number of features Q, 
-%     % else S1 cannot be calculated.
-% 
-%     v1=Q;  %Numerator degrees of freedom.
-%     v2=N-Q;  %Denominator degrees of freedom.
-%     P=1-fcdf(F,v1,v2);  %Probability that null Ho: is true.
-% 
-%     P = -2*log(P);
-% 
-%     pHist(K) = P;
-%     summary(K) = sum(pHist);
-%     if K>1
-%         phiSum(K) = conv(phiSum(K-1),fpdf(P,v1,v2));
-%     else
-%         phiSum(1) = fpdf(P,v1,v2);
-%     end
-%     
-%     if P >= alpha
-% %         disp('H0 cannot be rejected')
-%         % Mean vectors results not significant.
-%         numDetec(K) = 0;
-%     else
-% %         disp('HIT! H0 rejected, signal detected.')
-%         % Mean vectors results significant.
-%         numDetec(K) = 1;
-%     end
-%     numTests = numTests+1;
 end
 
-disp('Detection rate:')
-disp(sum(numDetec)/numTests)
+for ti=1:NumT
+%     Ps          = rand(1,K);            % random p values: all assumptions are met, so the FPR should be exact. 
+    Plog        = -2*log(Ps);           % fisher transform
+    Detected    = false;                % 
+    
+    % check for rejections
+    k = 1;
+    if sum(Plog(1:k)) > Thresholds(k)       % H0 rejected at stage 1 --> stop
+        FP(k) = FP(k) + 1;
+    else
+        k = 2;
+        if sum(Plog(1:k)) > Thresholds(k)       % H0 rejected at stage 2 --> stop
+            FP(k) = FP(k) + 1;
+        else
+            k = 3;
+            if sum(Plog(1:k)) > Thresholds(k)   % H0 rejected at stage 3 --> stop
+                FP(k) = FP(k) + 1;
+            end
+        end
+    end
+end
+
+Stage_FPRs  = FP/NumT               % stage-wise FPRs
+FPR         = sum(FP) / NumT        % total FPR
+
+% disp('Detection rate:')
+% disp(sum(numDetec)/numTests)
 
 
 

@@ -27,52 +27,46 @@
 % Limpar workspace
 clearvars; clc; close all;
 
+% Pega gpus
+spmd
+  gpuDevice( 1 + mod( labindex - 1, gpuDeviceCount ) );
+end
 
 % Parametros de simulacao
 t = tic();
-nRuns=1/2 *10000;
+nRuns= 1000;
 N = 100;
 tj = N; M = N;
 alpha = 0.01;
 
-Rm0 = zeros(nRuns,N);
+Rm0 = gpuArray(zeros(nRuns,N));
 
-% aux91= zeros(1,N);
-m91 = 10:1:100;
-Rm91 = zeros(nRuns,N);
+m91 = gpuArray(10:1:100);
+Rm91 = gpuArray(zeros(nRuns,N));
 
-% aux16= zeros(1,N);
-m16 = 6:6:100;
-Rm16 = zeros(nRuns,N);
+m16 = gpuArray(6:6:100);
+Rm16 = gpuArray(zeros(nRuns,N));
 
+% approx  => Rm0 e Rm16 @ nRuns = 1000
+% approx  => Rm0 e Rm91 @ nRuns = 1000
+% approx  => Rm0, Rm91 e Rm16 @ nRuns = 1000
 parfor ii = 1:nRuns
-    y = randn(1,N^2);
-    [~,Rm0(ii,:)] = rayleigh(y,N,N);
+    y = gpuArray(randn(1,N^2));
     
-    aux16= zeros(1,N);
-    temp16 = zeros(1,N);
+    Rm0(ii,:) = gpuRayleigh(y,N,N);
+    
+    aux16= gpuArray(zeros(16,N));
     for m = 1:numel(m16)
-        M = m16(m);
-        temp16 = rayleigh(y,N,M);
-        aux16 =max([temp,aux16],[],1);
+        aux16(m,1:N) = gpuRayleigh(y,N,m16(m));       
     end
-    Rm16(ii,:) = aux16;
+    Rm16(ii,:) = max(aux16,[],1);
     
-    aux91= zeros(1,N);
-    temp91 = zeros(1,N);
+    aux91= gpuArray(zeros(91,N));
     for m = 1:numel(m91)
-        M = m16(m);
-        temp = rayleigh(y,N,M);
-        aux91 =max([temp,aux91],[],1);
+        aux91(m,1:N) = gpuRayleigh(y,N,m91(m));        
     end
-    Rm91(ii,:) = aux91;
-    
-    %(Mmax-Min+1)/Mstep
-%     for m = 1:numel(m91)
-%         M = m91(m);
-%         [~,aux91(m,:)] = rayleigh(y,N,M);
-%     end
     Rm91(ii,:) = max(aux91,[],1);
+    
 end
 
 disp(toc(t))

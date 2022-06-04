@@ -71,7 +71,7 @@ end
 
 
 
-nK = 5; %numero de etapas
+nK = 3; %numero de etapas
 max = 600; % floor(N/nK);
 
 step = floor(max/nK);
@@ -86,9 +86,11 @@ pHistSem = [];
 pHist = [];
 summary = [];
 
+
 % K = 0:max:N-max;
 K = 1:max:3000;
-DESIRED_ALPHA = 0.01;
+DESIRED_ALPHA = 0.15; % 0.01;
+gamma = [0.2, 0.4,0.25];
 TAXA_POR_K = [];
 phiHist = [];
 
@@ -119,24 +121,58 @@ for i = 1:numel(K)
     v1=Q;  %Numerator degrees of freedom.
     v2=N-Q;  %Denominator degrees of freedom.
     P=1-fcdf(F,v1,v2);  %Probability that null Ho: is true.
-%     fcdf(F,v1,v2,'upper')
 
-%     pHistSem = [pHistSem,P];
-%     pHist = [pHist,P2];
     pHist = [pHist,P];
     
-    phiHist = [chi2inv(1-P,i+1),phiHist];
+    phiHist = [chi2inv(1-P,2),phiHist];
     
-%     summary(K) = sum(pHist);
-%     if i>1
-%         phi = [chi2inv(1-P,2+i), phi];
-% %         phiSum(i) = {conv(phiSum{i-1},fpdf(X(:,randi(Q,1,Q)),v1,v2))};
-%     else
-%         phi = chi2inv(1-P,2+i);
-% %         phiSum(1) = {fpdf),v1,v2)};
-%     end
+    
+    
+
 
     summary = [summary,sum(phiHist)];
+    
+    if i==1
+        xx = 0:0.0001:20;
+        phi = chi2pdf(xx,i+1);
+        cummPhi = cumtrapz(xx,phi);
+        
+        idxA = find(1-cummPhi<alpha,1);
+        A = xx(idxA)
+        
+        idxC = find(cummPhi>gamma(i),1);
+        C = xx(idxC)
+    else
+        oldPhi = phi;
+        
+%         xx = xx(1:idxA);
+%         phi = conv(oldPhi(1:idxA),chi2pdf(xx,i+1),'same');
+%         xx = xx(idxC:idxA);
+        phi = conv(chi2pdf(xx,i+1),phi,'same');
+        cummPhi = cumtrapz(xx,phi);
+        
+        idxA = find(1-cummPhi<alpha,1);
+        A = xx(idxA)
+        idxC = find(cummPhi>gamma(i),1);
+        C = xx(idxC)
+
+        
+%         phi = chi2pdf(xx,i+1);
+
+        
+        
+%         aux = find(1-cummPhi<alpha,1);
+        
+        % 1-cummPhi(aux) == alpha
+        
+%         C = xx(find(cummPhi>gamma,1));
+
+    end
+    figure(i)
+    plot(xx,phi)
+    drawnow
+    
+    
     
     if P >= alpha
 %         disp('H0 cannot be rejected')
@@ -165,5 +201,18 @@ disp(1-sum(numDetec)/numTests)
 summary
 pHist
 
+%% too afraid to delete these ideias:
+%     fcdf(F,v1,v2,'upper')
 
+%     pHistSem = [pHistSem,P];
+%     pHist = [pHist,P2];
+
+%     summary(K) = sum(pHist);
+%     if i>1
+%         phi = [chi2inv(1-P,2+i), phi];
+% %         phiSum(i) = {conv(phiSum{i-1},fpdf(X(:,randi(Q,1,Q)),v1,v2))};
+%     else
+%         phi = chi2inv(1-P,2+i);
+% %         phiSum(1) = {fpdf),v1,v2)};
+%     end
 

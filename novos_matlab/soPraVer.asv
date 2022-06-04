@@ -1,10 +1,3 @@
-% Referencias:
-% Sci-Hub | The Convolutional Group Sequential Test: reducing test time for evoked potentials. IEEE Transactions on Biomedical Engineering, 1–1 | 10.1109/tbme.2019.2919696
-% https://sci-hub.se/10.1109/tbme.2019.2919696
-% 
-% Sci-Hub | A group sequential test for ABR detection. International Journal of Audiology, 1–10 | 10.1080/14992027.2019.1625486
-% https://sci-hub.se/10.1080/14992027.2019.1625486
-
 %% cleanup
 close all;clearvars;clc;
 
@@ -12,10 +5,8 @@ close all;clearvars;clc;
 
 % ! Ensure data ins on Matlab's path
 load Subject_ABR_Data.mat
-% for SS = 1:12
-sub1 = DB00{1};
-% sub1 = DB40{1};
-% DB50{1};  subject 1 in exam without stimulus
+
+sub1 = DB00{1}; % subject 1 in exam without stimulus
 [N,sampleSize] = size(sub1);
 
 % SUB1 = fft(sub1);
@@ -42,7 +33,7 @@ if isempty(find(isnan(V)~=0, 1))
     disp('Matrix properly constructed, no NaNs left.')
 end
 
-%% Hotelling'S T-Squared statistic
+%% HOTTERLING'S T-Squared statistic
 %     Inputs:
 %          X - multivariate data matrix. 
 %      alpha - significance level (default = 0.05).
@@ -69,101 +60,62 @@ end
 %             Andrea Guia-Ramirez.
 %  Copyright (C) December 2002
 
+% from Generate_Thresholds_ExampleCode.m:
+Thresholds = [8.1887,  11.0080,   13.4886]; 
 
-
-nK = 5; %numero de etapas
-max = 600; % floor(N/nK);
-
-step = floor(max/nK);
-numDetec = zeros(size(1:26:max-25));
-
-% pHist = zeros(1,max);
-% summary = zeros(1,max);
-% phiSum = zeros(1,max); 
-% phiSum = cell(1,nK);
-numTests = 0;
-pHistSem = [];
-pHist = [];
-summary = [];
-
-% K = 0:max:N-max;
-K = 1:max:3000;
-DESIRED_ALPHA = 0.01;
-TAXA_POR_K = [];
-phiHist = [];
-
-for i = 1:numel(K)
-    % each stage gets disjoint epochs
-    X = V(K(i):K(i)+max-1,:);
-    [N,Q] = size(X);
-
-    alpha = DESIRED_ALPHA/nK;
-
+K       = 3;                % test the 3-staged design
+FP      = zeros(1, K);      % number of false-positives
+NumT    = N;                % number of tests to carry out
+for ti=1:NumT
+    X = V(1:K,:); % FIXME
     mu=zeros([1,Q]); % EXPECTED MEAN
     m=mean(X); %Mean vector from data matrix X.
     S=cov(X);  %Covariance matrix from data matrix X.
-    
-    T2=N*(m-mu)*pinv(S)*(m-mu)'; %Hotelling's T-Squared statistic.
-%     T2=N*(m-mu)/S*(m-mu)'; % exact method
+    T2=N*(m-mu)*inv(S)*(m-mu)'; %Hotelling's T-Squared statistic.
 
     % "The T2 statistic can then be transformed into an F 
     % statistic using:
 
     F = T2*(N-Q)/(Q*(N-1));
-    
+
     % which follows an F-distribution with Q and N – Q degrees of
     % freedom (DOF) under H0. It is worth noting that the number 
-    %of epochs N should be larger than the number of features Q, 
+    % of epochs N should be larger than the number of features Q, 
     % else S1 cannot be calculated.
 
     v1=Q;  %Numerator degrees of freedom.
     v2=N-Q;  %Denominator degrees of freedom.
     P=1-fcdf(F,v1,v2);  %Probability that null Ho: is true.
-%     fcdf(F,v1,v2,'upper')
-
-%     pHistSem = [pHistSem,P];
-%     pHist = [pHist,P2];
-    pHist = [pHist,P];
     
-    phiHist = [chi2inv(1-P,i+1),phiHist];
-    
-%     summary(K) = sum(pHist);
-%     if i>1
-%         phi = [chi2inv(1-P,2+i), phi];
-% %         phiSum(i) = {conv(phiSum{i-1},fpdf(X(:,randi(Q,1,Q)),v1,v2))};
-%     else
-%         phi = chi2inv(1-P,2+i);
-% %         phiSum(1) = {fpdf),v1,v2)};
-%     end
-
-    summary = [summary,sum(phiHist)];
-    
-    if P >= alpha
-%         disp('H0 cannot be rejected')
-        % No signal
-        numDetec(i) = 0;
-%         numDetec = [numDetec,0];
-    else
-        disp('HIT! H0 rejected, signal detected.')
-        % Mean vectors results significant.
-        numDetec(i) = 1;
-%         numDetec = [numDetec,1];
-    end
-    
-%     quantile(phiSum{2},alpha)
-    
-    numTests = numTests+1;
-    TAXA_POR_K = [TAXA_POR_K, sum(numDetec)/numTests];
 end
-% end
 
-disp('Detection rate:')
-disp(sum(numDetec)/numTests)
-disp('')
-disp('Rejection rate: (FPR ou TPR)')
-disp(1-sum(numDetec)/numTests)
-summary
-pHist
+for ti=1:NumT
+       Ps          = rand(1,K);            % random p values: all assumptions are met, so the FPR should be exact. 
+    Plog        = -2*log(Ps);           % fisher transform
+    Detected    = false;                % 
+    
+    % check for rejections
+    k = 1;
+    if sum(Plog(1:k)) > Thresholds(k)       % H0 rejected at stage 1 --> stop
+        FP(k) = FP(k) + 1;
+    else
+        k = 2;
+        if sum(Plog(1:k)) > Thresholds(k)       % H0 rejected at stage 2 --> stop
+            FP(k) = FP(k) + 1;
+        else
+            k = 3;
+            if sum(Plog(1:k)) > Thresholds(k)   % H0 rejected at stage 3 --> stop
+                FP(k) = FP(k) + 1;
+            end
+        end
+    end
+end
+
+Stage_FPRs  = FP/NumT               % stage-wise FPRs
+FPR         = sum(FP) / NumT        % total FPR
+
+% disp('Detection rate:')
+% disp(sum(numDetec)/numTests)
 
 
 

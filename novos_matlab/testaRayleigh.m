@@ -30,7 +30,7 @@ clearvars; clc; close all;
 
 % Parametros de simulacao
 t = tic();
-nRuns=1/2 *10000;
+nRuns=1/2 *10000;nRuns=1000;
 N = 100;
 tj = N; M = N;
 alpha = 0.01;
@@ -46,17 +46,20 @@ Rm16 = zeros(nRuns,N);
 % approx 115.6759s => Rm0 e Rm16 @ nRuns = 5000
 % approx 718.6909 => Rm0 e Rm16 @ nRuns = 5000
 for ii = 1:nRuns
+    if rem(ii,100)==0
+        disp(ii)
+    end
     y = randn(1,N^2);
-    [Y,Rm0(ii,:)] = rayleigh(y,N,N);
+    Rm0(ii,:) = rayleigh(y,N,N);
     
     for M = 6:6:100
-        [Y,aux16(M/6,:)] = rayleigh(y,N,M);
+        aux16(M/6,:) = rayleigh(y,N,M);
     end
     Rm16(ii,:) = max(aux16,[],1);
     
     %(Mmax-Min+1)/Mstep
     for M = 10:1:100
-        [Y,aux91(M-9,:)] = rayleigh(y,N,M);
+        aux91(M-9,:) = rayleigh(y,N,M);
     end
     Rm91(ii,:) = max(aux91,[],1);
 end
