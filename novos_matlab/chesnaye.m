@@ -1,3 +1,9 @@
+% Referencias:
+% Sci-Hub | The Convolutional Group Sequential Test: reducing test time for evoked potentials. IEEE Transactions on Biomedical Engineering, 1–1 | 10.1109/tbme.2019.2919696
+% https://sci-hub.se/10.1109/tbme.2019.2919696
+% 
+% Sci-Hub | A group sequential test for ABR detection. International Journal of Audiology, 1–10 | 10.1080/14992027.2019.1625486
+% https://sci-hub.se/10.1080/14992027.2019.1625486
 %% cleanup
 close all;clearvars;clc;
 

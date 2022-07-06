@@ -6,7 +6,7 @@ close all;clearvars;clc;
 % ! Ensure data ins on Matlab's path
 load Subject_ABR_Data.mat
 
-sub1 = DB00{1}; % subject 1 in exam without stimulus
+sub1 = DB00{2}; % subject 1 in exam without stimulus
 [N,sampleSize] = size(sub1);
 
 % SUB1 = fft(sub1);
@@ -62,18 +62,23 @@ end
 
 K       = 3;                % test the 3-staged design
 FP      = zeros(1, K);      % number of false-positives
-NumT    = N;                % number of tests to carry out
+NumT    = 3;                % number of tests to carry out
 
 % from Generate_Thresholds_ExampleCode.m:
 Thresholds = [8.1887,  11.0080,   13.4886]; 
 Ps = zeros(1,K);
+% slice = [1:round(N/K), round(N/K)+1:2*round(N/K), ]
+V2 = reshape(V(1:end-5),4,[]);
+% V2 = reshape(V,K,[]);
 
-for ti=1:NumT
-    X = V(1:K,:); % FIXME
+for ti = 1:K
+    X = V2(ti,:); % FIXME
+%     X = reshape(X,round(length(X)/Q),Q);
+%     [N,~] = size(X);
     mu=zeros([1,Q]); % EXPECTED MEAN
     m=mean(X); %Mean vector from data matrix X.
     S=cov(X);  %Covariance matrix from data matrix X.
-    T2=N*(m-mu)*inv(S)*(m-mu)'; %Hotelling's T-Squared statistic.
+    T2=N*(m-mu)*pinv(S)*(m-mu)'; %Hotelling's T-Squared statistic.
 
     % "The T2 statistic can then be transformed into an F 
     % statistic using:
@@ -87,7 +92,8 @@ for ti=1:NumT
 
     v1=Q;  %Numerator degrees of freedom.
     v2=N-Q;  %Denominator degrees of freedom.
-    Ps(ti)=1-fcdf(F,v1,v2);  %Probability that null Ho: is true.
+    Ps(ti)=fcdf(F,v1,v2);
+%     1-fcdf(F,v1,v2);  %Probability that null Ho: is true.
     
 end
 
