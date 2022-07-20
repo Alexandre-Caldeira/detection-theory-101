@@ -26,6 +26,7 @@ sub1 = DB00{1};
 % where N is the number of epochs 
 % and Q are features extracted from each epoch
 Q = 25;
+N = 3000;
 V = nan(N,Q); 
 for i = 1:1:N
     for j = 6:6:sampleSize

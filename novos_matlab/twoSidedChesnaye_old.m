@@ -2,7 +2,7 @@
 clear all
 close all
 clc
-
+%%
 % parameters
 K               = 3;                            % analyse data 3 times
 TotalAlpha      = 0.05;                         % pre-specified alpha-level for the full sequential test
@@ -11,12 +11,12 @@ Resolution      = (1/0.0001);                   % the resolution of the approxim
 Xvalues         = 0:1/Resolution:35;            % the x-axis along which the distribution of the test statistic will be defined
 Null         	= chi2pdf(Xvalues,2);           % null distribution for test statistic at stage k
 Chi2_Norm       = Null/sum(Null);             	% normalise 
-
+%%
 % stage 1 threshold
 k               = 1;                                % stage 1
 Thresholds(k)	= -2*log( Alpha_k(k) );             % for the first stage, we don't need to do any convolutions
 TruncInd_R      = round(Thresholds(k)*Resolution);  % The location where the stage 1 distribution will be truncated (later at stage two)
-
+%%
 % stage 2 threshold
 k                           = 2;                                                        % stage 2
 NullTrunc                   = Null;                                                     % 
@@ -26,7 +26,7 @@ Null2                       = Null2 / (sum(Null2) / (1 - sum(Alpha_k(1:(k-1)))))
 TruncInd_R                  = findIndex(Null2, sum(Null2) - Alpha_k(k));                % find the critical threshold. Function "findIndex" is a search function (probably not the most efficient, but it works)
 Thresholds(k)               = TruncInd_R/Resolution;                                    % translate the index to a threshold
 Null                        = Null2;                                                    % 
-
+%%
 % stage 3 threshold
 k                           = 3;                                                % stage 3
 NullTrunc                   = Null;                                             %
@@ -36,7 +36,7 @@ Null2                       = Null2 / (sum(Null2) / sum(NullTrunc));            
 TruncInd_R                  = findIndex(Null2, sum(Null2) - Alpha_k(k));        % find truncation index
 Thresholds(k)               = TruncInd_R/Resolution;                            % and translate the index to a threshold   
 
-
+%%
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % verify FPR  % % % % % % % % % % % % % % % % % % % % %
