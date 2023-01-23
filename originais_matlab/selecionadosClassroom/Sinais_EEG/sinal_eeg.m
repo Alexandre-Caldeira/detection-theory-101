@@ -1,8 +1,9 @@
 %Aplicação do protocolo ao banco de dados 
 clear all, close all, clc 
 
+caminho = 'C:\Users\Meu computador\Documents\meus\IFES\Disciplinas\processamento_sinais_biomedicos\Detectores\Estrategia_Testes_Sequenciais\Dados_organizados\';
+
 caminho = 'C:\Users\alexa\Desktop\sync\NIAS_online\IC21\bd\';
-% C:\Users\Meu computador\Documents\meus\IFES\Disciplinas\processamento_sinais_biomedicos\Detectores\Estrategia_Testes_Sequenciais\Dados_organizados\';
 
 %vetor dos voluntários 
 Vvoluntario = {'Ab';'An';'Bb';'Er';'Lu';...
@@ -14,8 +15,8 @@ Vvoluntario = {'Ab';'An';'Bb';'Er';'Lu';...
 %intensidade = {'70dB';'60dB';'50dB';'40dB';'30dB';'ESP'}; %quais intensidade analisadas 
 %sugestão
 %vetor_Mmax = [50;50;240;440;440;20]; %número máximo de janela para cada intensidade
-Intensidade = {'50dB'};
-Mmax = 240; %valor máximo 
+Intensidade = {'40dB'};
+Mmax = 200; %valor máximo 
 
 %% Parametros do protocolo de detecção. 
 
@@ -24,10 +25,13 @@ Mmax = 240; %valor máximo
 FP_desejado = 0.05; 
 nRuns = 1000; 
 
-% [alfa_corrigido,cost_alfa, P] = funcao_alfaCorrigido_Mmax(nRuns,Mmax,FP_desejado);
-[alfa_corrigido, P] = funcao_alfaCorrigido_Cebulla(nRuns,Mmax,FP_desejado);
+[alfa_corrigido,cost_alfa, P] = funcao_alfaCorrigido_Mmax(nRuns,Mmax,FP_desejado);
 
 parametros = [P, alfa_corrigido];
+
+
+
+
 
 %%
 load([caminho 'eletrodos.mat'])
@@ -64,7 +68,7 @@ for cont_vol = 1:size(Vvoluntario,1) %fazer por voluntário
      %encontrar o valor máximo por canal 
       Vmax = max(abs(x),[],1);
       ind = Vmax>remoc;
-%       [sum(ind) cont_vol ];
+      [sum(ind) cont_vol ];
       x = x(:,~ind); %removor o ruído amplitude 
       x = x(:,1:Mmax);%limitar o tamanho para o valor máximo. 
      
@@ -99,13 +103,8 @@ plot(TXD,'.k','MarkerSize',10)
 hold on 
 plot([0 size(TXD,1)],[TXD(end) TXD(end)], ':r','LineWidth',2)
 ylabel('Taxa de Detecção','fontsize',12)
-xlabel('Índice do Conj. de Parâmetros','fontsize',12)
-title('50dB - M = 2:2:240 - CEBULLA')
 
-%Dados 30dB 440 Janelas descomentar 
-% plot([0 size(TXD,1)],[TXD(end) TXD(end)], ':r','LineWidth',2)  %single shot 30dB
-% Dados 50dB 240 Janelas
-% plot([0 size(TXD,1)],[TXD(1) TXD(1)], ':r','LineWidth',2)  %single shot 50dB
+
 
 %2 - Taxa de detecção 
 figure 
@@ -113,17 +112,10 @@ plot(FP,'.k','MarkerSize',10)
 hold on 
 plot([0 size(FP,1)],[FP_desejado FP_desejado], ':r','LineWidth',2)
 ylabel('Falso Positivo','fontsize',12)
-xlabel('Índice do Conj. de Parâmetros','fontsize',12)
-title('50dB - M = 2:2:240 - CEBULLA')
 
 figure
-subplot(121)
-histogram(FP)
-title([num2str(intensidade),' - M = 2:2:50 - CEBULLA'])
-ylabel('# de ocorrências','fontsize',12)
-xlabel('Taxa de FP','fontsize',12)
-subplot(122)
 boxplot(FP)
+
 %%
 % taxa de detecção x tempo 
 timeM = time(binsM,:); 
@@ -186,5 +178,5 @@ fprintf('\n');
 xlim([min(TXD(idxs))*.95,max(TXD(idxs))*1.05])
 ylim([min(timeM(idxs))*.95 Mmax*1.05])
 
-title('50dB - M = 2:2:240 - ZANOTELLI')
+
 
