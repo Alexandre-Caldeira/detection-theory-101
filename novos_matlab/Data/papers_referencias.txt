@@ -1,0 +1,30 @@
+Subject ABR threshold data from 12 subjects - ePrints Soton
+https://eprints.soton.ac.uk/417742/
+
+The Convolutional Group Sequential Test: reducing test time for evoked potentials
+file:///C:/Users/alexa/Desktop/sync/NIAS_online/IC21/detection-theory-101/novos_matlab/chesnaye2019.pdf
+
+Sci-Hub | Adaptive Sample Size Calculations in Group Sequential Trials. Biometrics, 55(4), 1286–1290 | 10.1111/j.0006-341x.1999.01286.x
+https://sci-hub.se/10.1111/j.0006-341x.1999.01286.x
+
+Sci-Hub | A group sequential test for ABR detection. International Journal of Audiology, 1–10 | 10.1080/14992027.2019.1625486
+https://sci-hub.se/10.1080/14992027.2019.1625486
+
+Spectral Analysis Parametric and Non-Parametric Digital Methods (Francis Castanié) (z-lib.org).pdf
+file:///C:/Users/alexa/Desktop/Spectral%20Analysis%20Parametric%20and%20Non-Parametric%20Digital%20Methods%20(Francis%20Castani%C3%A9)%20(z-lib.org).pdf
+
+michael_chesnaye_AI.pdf
+file:///C:/Users/alexa/Desktop/michael_chesnaye_AI.pdf
+
+Sci-Hub | Objective measures for detecting the auditory brainstem response: comparisons of specificity, sensitivity and detection time. International Journal of Audiology, 57(6), 468–478 | 10.1080/14992027.2018.1447697
+https://sci-hub.se/10.1080/14992027.2018.1447697
+
+Sci-Hub | Accuracy of averaged auditory brainstem response amplitude and latency estimates. International Journal of Audiology, 57(5), 345–353 | 10.1080/14992027.2017.1381770
+https://sci-hub.se/10.1080/14992027.2017.1381770
+
+Sci-Hub | Objective detection of evoked potentials using a bootstrap technique. Medical Engineering & Physics, 29(2), 191–198 | 10.1016/j.medengphy.2006.03.001
+https://sci-hub.se/10.1016/j.medengphy.2006.03.001
+
+Autoregressive model - Wikipedia
+https://en.wikipedia.org/wiki/Autoregressive_model
+
